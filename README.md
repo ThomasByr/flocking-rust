@@ -37,4 +37,4 @@ All dependencies can be found in [cargo.toml](Cargo.toml) :
 
 1.  initial commit
 2.  boids on the screen (their position was a little off)
-3.  quadtree acceleration which bring a ``$n*log{n}$`` time complexity
+3.  quadtree acceleration which bring a ``n*log(n)`` time complexity
