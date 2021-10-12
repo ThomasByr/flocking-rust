@@ -11,7 +11,7 @@ use fps_counter::*;
 use piston_window::*;
 
 const N: usize = 100;
-const WIDTH: f64 = 800.0;
+const WIDTH: f64 = 1000.0;
 const HEIGHT: f64 = 600.0;
 const CAPACITY: usize = 2;
 
@@ -89,13 +89,13 @@ fn main() {
             let transform = c.transform.trans(10., 20.);
             clear([0.1; 4], g);
 
+            // draw quadtree
+            qt.draw(c, g, Some([0.2; 4]));
+
             // draw boids
             for boid in boids.iter_mut() {
                 boid.draw(c, g, None);
             }
-
-            // draw quadtree
-            qt.draw(c, g, Some([0.2; 4]));
 
             // render fps on window as text
             text::Text::new_color([1.; 4], 9)
