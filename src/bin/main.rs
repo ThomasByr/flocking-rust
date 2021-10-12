@@ -54,6 +54,7 @@ fn main() {
     // Main Loop
     window.set_position([100, 50]);
     window.set_max_fps(60);
+    window.set_ups(60);
     while let Some(e) = window.next() {
         frames = fps_counter.tick(); // update fps counter
 
