@@ -1,13 +1,14 @@
 extern crate find_folder;
 extern crate fps_counter;
+extern crate math_vector;
 extern crate piston_window;
 
 use flocking::boid::Boid;
 use flocking::qtree::bounds::Point;
 use flocking::qtree::QTree;
-use flocking::vector::Vec3;
 
 use fps_counter::*;
+use math_vector::Vector;
 use piston_window::*;
 
 const N: usize = 100;
@@ -25,7 +26,7 @@ fn main() {
 
     // Create qtree
     let mut qt = QTree::new(
-        Vec3::new(WIDTH / 2., HEIGHT / 2., 0.),
+        Vector::new(WIDTH / 2., HEIGHT / 2., 0.),
         CAPACITY,
         WIDTH / 2.0,
         HEIGHT / 2.0,
