@@ -1,6 +1,5 @@
 [package]
 name = "flocking"
-authors = ["Thomas Byr <tbouyer2000@gmail.com>"]
 version = "0.1.0"
 edition = "2018"
 
@@ -12,3 +11,5 @@ piston_window = "*"
 find_folder = "*"
 fps_counter = "*"
 rand = "*"
+
+math_vector = { git = "https://github.com/ThomasByr/rust-math_vector" }
