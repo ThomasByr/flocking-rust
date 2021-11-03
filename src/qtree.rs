@@ -1,10 +1,8 @@
-extern crate piston_window;
-
 use super::boid::Boid;
-use crate::vector::Vec3;
 
 pub mod bounds;
 use bounds::*;
+use math_vector::Vector;
 use piston_window::*;
 
 pub struct QTree {
@@ -13,7 +11,7 @@ pub struct QTree {
     pub southeast: Option<Box<QTree>>,
     pub southwest: Option<Box<QTree>>,
 
-    pub center: Vec3,
+    pub center: Vector<f64>,
     pub size: usize,
     pub points: Vec<Point>,
 
@@ -22,7 +20,7 @@ pub struct QTree {
 }
 
 impl QTree {
-    pub fn new(center: Vec3, size: usize, width: f64, height: f64) -> QTree {
+    pub fn new(center: Vector<f64>, size: usize, width: f64, height: f64) -> QTree {
         QTree {
             northeast: None,
             northwest: None,
@@ -59,25 +57,25 @@ impl QTree {
         let h = self.boundary.height / 2.0;
 
         self.northeast = Some(Box::new(QTree::new(
-            Vec3::new(x - w, y - h, 0.0),
+            Vector::new(x - w, y - h, 0.0),
             self.size,
             w,
             h,
         )));
         self.northwest = Some(Box::new(QTree::new(
-            Vec3::new(x + w, y - h, 0.0),
+            Vector::new(x + w, y - h, 0.0),
             self.size,
             w,
             h,
         )));
         self.southeast = Some(Box::new(QTree::new(
-            Vec3::new(x - w, y + h, 0.0),
+            Vector::new(x - w, y + h, 0.0),
             self.size,
             w,
             h,
         )));
         self.southwest = Some(Box::new(QTree::new(
-            Vec3::new(x + w, y + h, 0.0),
+            Vector::new(x + w, y + h, 0.0),
             self.size,
             w,
             h,
