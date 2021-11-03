@@ -1,8 +1,9 @@
 extern crate piston_window;
 
-use crate::{vector::Vec3, EPSILON};
+use crate::EPSILON;
 use rand::Rng;
 
+use math_vector::Vector;
 use piston_window::*;
 
 const MAX_SPEED: f64 = 2.0;
@@ -16,9 +17,9 @@ const SEPARATION_WEIGHT: f64 = 1.0;
 
 #[derive(Clone, Copy)]
 pub struct Boid {
-    pub position: Vec3,
-    pub velocity: Vec3,
-    pub acceleration: Vec3,
+    pub position: Vector<f64>,
+    pub velocity: Vector<f64>,
+    pub acceleration: Vector<f64>,
     pub max_speed: f64,
     pub max_force: f64,
     pub mass: f64,
@@ -28,13 +29,13 @@ pub struct Boid {
 impl Boid {
     pub fn new(width: f64, height: f64) -> Boid {
         let mut rng = rand::thread_rng();
-        let position = Vec3::new(
+        let position = Vector::new(
             rng.gen_range((0.0)..width),
             rng.gen_range((0.0)..height),
             0.0,
         );
-        let velocity = Vec3::new(EPSILON, 0.0, 0.0);
-        let acceleration = Vec3::zero();
+        let velocity = Vector::new(EPSILON, 0.0, 0.0);
+        let acceleration = Vector::default();
         let max_speed = MAX_SPEED;
         let max_force = MAX_FORCE;
         let mass = MASS;
@@ -63,7 +64,7 @@ impl Boid {
     pub fn r#move(&mut self, width: f64, height: f64) {
         self.position += self.velocity;
         self.velocity += self.acceleration;
-        self.velocity.limit(self.max_speed);
+        self.velocity.limit_length(self.max_speed);
         self.acceleration *= 0.0;
 
         if self.position.x > width {
@@ -78,14 +79,14 @@ impl Boid {
         }
     }
 
-    pub fn get_forces(&mut self, boids: &Vec<Boid>) -> (Vec3, Vec3, Vec3) {
-        let mut separation = Vec3::zero();
-        let mut alignment = Vec3::zero();
-        let mut cohesion = Vec3::zero();
+    pub fn get_forces(&mut self, boids: &Vec<Boid>) -> (Vector<f64>, Vector<f64>, Vector<f64>) {
+        let mut separation = Vector::default();
+        let mut alignment = Vector::default();
+        let mut cohesion = Vector::default();
         let mut total = 0;
 
         for b in boids.iter() {
-            let d = self.position.dist(b.position);
+            let d = self.position.distance(b.position);
 
             if b.position != self.position && d < self.radius {
                 alignment += b.velocity;
@@ -100,23 +101,23 @@ impl Boid {
 
         if total >= 1 {
             alignment /= total as f64;
-            alignment.normalize();
+            alignment = alignment.normalise();
             alignment *= self.max_speed;
             alignment -= self.velocity;
-            alignment.limit(self.max_force);
+            alignment = alignment.limit_length(self.max_force);
 
             cohesion /= total as f64;
             cohesion -= self.position;
-            cohesion.normalize();
+            cohesion = cohesion.normalise();
             cohesion *= self.max_speed;
             cohesion -= self.velocity;
-            cohesion.limit(self.max_force);
+            cohesion = cohesion.limit_length(self.max_force);
 
             separation /= total as f64;
-            separation.normalize();
+            separation = separation.normalise();
             separation *= self.max_speed;
             separation -= self.velocity;
-            separation.limit(self.max_force);
+            separation = separation.limit_length(self.max_force);
         }
         (alignment, cohesion, separation)
     }
