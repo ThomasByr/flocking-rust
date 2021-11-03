@@ -1,20 +1,20 @@
 extern crate piston_window;
 
 use super::Boid;
-use crate::vector::Vec3;
 
+use math_vector::Vector;
 use piston_window::*;
 use std::fmt::Debug;
 
 #[derive(Clone, Copy)]
 pub struct Point {
-    pub pos: Vec3,
+    pub pos: Vector<f64>,
     pub data: Option<Boid>,
 }
 
 #[derive(Debug)]
 pub struct Rect {
-    pub pos: Vec3,
+    pub pos: Vector<f64>,
     pub width: f64,
     pub height: f64,
 }
