@@ -28,13 +28,18 @@ None ! Exept for the fact that the simulation seems to speed up on mouse events 
 
 All dependencies can be found in [cargo.toml](Cargo.toml) :
 
-*   piston_window
-*   find_folder
-*   fps_counter
-*   rand
+```toml
+piston_window = "*"
+find_folder = "*"
+fps_counter = "*"
+rand = "*"
+
+math_vector = { git = "https://github.com/ThomasByr/rust-math_vector" }
+```
 
 ## Changelog
 
 1.  initial commit
 2.  boids on the screen (their position was a little off)
 3.  quadtree acceleration which bring a ``n*log(n)`` time complexity
+4.  used custom 3d vector structure
