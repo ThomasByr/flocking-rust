@@ -83,7 +83,7 @@ fn main() {
             boid.flock(&neighbors);
         }
         for boid in boids.iter_mut() {
-            boid.r#move(WIDTH, HEIGHT);
+            boid.update(WIDTH, HEIGHT);
         }
 
         // Draw
