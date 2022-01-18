@@ -61,7 +61,7 @@ impl Boid {
         );
     }
 
-    pub fn r#move(&mut self, width: f64, height: f64) {
+    pub fn update(&mut self, width: f64, height: f64) {
         self.position += self.velocity;
         self.velocity += self.acceleration;
         self.velocity.limit_length(self.max_speed);
